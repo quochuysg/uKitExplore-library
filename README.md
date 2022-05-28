@@ -7,11 +7,12 @@
        - add Serial2.flush(); before Serail.end() call to make sure all     data is writen
     2. uKitID.cpp
       - Comment out #include "avr/boot.h"
-    3. COmment out all calls to FlexiTmer2 in these files:
+    3. Comment out all calls to FlexiTmer2 in these files:
        - kuka.cpp
        - ucode.cpp
        - uCodeOneMode.cpp
     4. delete FlexiTmer2.h and .cpp due to incompatable
+    5. Temporally empty newTone() and noNewTone() functions in Newtone.cpp
 
 # uKit Explore Library v1.2.15
 
