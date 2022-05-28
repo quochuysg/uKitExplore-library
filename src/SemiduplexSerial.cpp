@@ -1,6 +1,28 @@
 
 #include"SemiduplexSerial.h"
 
+// ****************************
+// **** modified block from original file **** //
+// ****************************
+#include "HardwareSerial.h"
+#define u8 unsigned char
+#define Txd3 27
+#define Rxd3 12
+#define Txd2 13
+#define Rxd2 14
+
+//HardwareSerial Serial2(1);
+HardwareSerial Serial3(2);
+
+
+// -	Modify the all the call to Serial2.write(buf,length) in all functions: SemiduplexSerial::ubtServoProtocol(…)
+// SemiduplexSerial::ubtHumitureProtocol(..) …
+// Important: Need to add Serial2.flush() to wait for all the data written out before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work  (although when use with Arduino Mega, this requirement is not needed)
+
+// ****************************
+// **** end of modified block from original file **** //
+// ****************************
+
 SoftwareSerial mySoftSerial1(VISION_SOFTSERIAL_RXPIN,VISION_SOFTSERIAL_TXPIN);
 
 /**@brief EN:JIMU Servo checksum/CN:JIMU舵机校验
@@ -53,6 +75,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   if(CMD==0x06){
     delay(10);
@@ -156,6 +180,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   tRet = Serial3.readBytes( Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -244,6 +270,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t 
   Serial2.end();  //关闭串口2,否则会影响接收消息
   if(CMD==0x06){
     delay(20);
@@ -335,6 +363,9 @@ unsigned char SemiduplexSerial::ubtButtonStateProtocol(unsigned char Head,unsign
   buf[len] = 0xED;
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t 
+
   Serial2.end();  //关闭串口2,否则会影响接收消息 
   Serial3.begin(115200);  //uart3
   Serial3.setTimeout(2);
@@ -402,6 +433,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t 
   Serial2.end();  //关闭串口2,否则会影响接收消息 
   tRet = Serial3.readBytes( Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -485,6 +518,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t 
   Serial2.end();  //关闭串口2,否则会影响接收消息
   if(CMD==0x06){
     delay(20);
@@ -577,6 +612,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t 
   Serial2.end();  //关闭串口2,否则会影响接收消息
   if(CMD==0x06){
     delay(20);
@@ -643,6 +680,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t 
   Serial2.end();  //关闭串口2,否则会影响接收消息
   if(CMD==0x06){
     delay(25);
@@ -724,6 +763,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t 
   Serial2.end();  //关闭串口2,否则会影响接收消息
   tRet = Serial3.readBytes( Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len+2); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -776,6 +817,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len+1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t 
   Serial2.end();  //关闭串口2,否则会影响接收消息
 
   tRet = Serial3.readBytes( Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len+1); //接收应答
@@ -860,6 +903,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t 
   Serial2.end();  //关闭串口2,否则会影响接收消息
   if(CMD==0x06){
     delay(10);
@@ -943,6 +988,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t 
   Serial2.end();  //关闭串口2,否则会影响接收消息
   tRet = Serial3.readBytes( Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -1024,6 +1071,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t 
   Serial2.end();  //关闭串口2,否则会影响接收消息
   if(CMD==0x06){
     delay(10);
@@ -1117,6 +1166,8 @@ unsigned char SemiduplexSerial::ubtUltrasonicIdProtocol(unsigned char Head,unsig
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len +1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   tRet = Serial3.readBytes( Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len+1); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -1169,6 +1220,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t 
   Serial2.end();  //关闭串口2,否则会影响接收消息
   tRet = Serial3.readBytes(Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -1246,6 +1299,8 @@ unsigned char SemiduplexSerial::ubtSoundIdProtocol(unsigned char len,unsigned ch
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t 
   Serial2.end();  //关闭串口2,否则会影响接收消息
   tRet = Serial3.readBytes(Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -1301,6 +1356,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t 
   Serial2.end();  //关闭串口2,否则会影响接收消息
   tRet = Serial3.readBytes( Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -1397,6 +1454,8 @@ unsigned char SemiduplexSerial::ubtHumitureIdProtocol(unsigned char len,unsigned
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t 
   Serial2.end();  //关闭串口2,否则会影响接收消息
   tRet = Serial3.readBytes( Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -1452,6 +1511,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   tRet = Serial3.readBytes( Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -1523,6 +1584,8 @@ unsigned char SemiduplexSerial::ubtLightIdProtocol(unsigned char len,unsigned ch
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   tRet = Serial3.readBytes( Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -1587,6 +1650,10 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   tRet = Serial3.readBytes(Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -1596,6 +1663,8 @@ Retry_Servo:
     Serial3.setTimeout(temp*87*110/100/400);  //设置超时ms
     Serial2.begin(114200);  //设置波特率
     Serial2.write(buf,len);  //发送消息
+    Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
     Serial2.end();  //关闭串口2,否则会影响接收消息
     tRet =Serial3.readBytes(Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len); //接收应答
     Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -1675,6 +1744,10 @@ unsigned char SemiduplexSerial::ubtMotorIdProtocol(unsigned char len,unsigned ch
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   tRet = Serial3.readBytes(Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -1685,6 +1758,8 @@ unsigned char SemiduplexSerial::ubtMotorIdProtocol(unsigned char len,unsigned ch
     Serial3.setTimeout(temp*87*110/100/400);  //设置超时ms
     Serial2.begin(114200);  //设置波特率
     Serial2.write(buf,len);  //发送消息
+    Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
     Serial2.end();  //关闭串口2,否则会影响接收消息
     tRet =Serial3.readBytes(Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len); //接收应答
     Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -1766,6 +1841,10 @@ unsigned char SemiduplexSerial::ubtMotorActionProtocol(unsigned char len,unsigne
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   tRet = Serial3.readBytes(Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -1776,6 +1855,8 @@ unsigned char SemiduplexSerial::ubtMotorActionProtocol(unsigned char len,unsigne
     Serial3.setTimeout(temp*87*110/100/400);  //设置超时ms
     Serial2.begin(114200);  //设置波特率
     Serial2.write(buf,len);  //发送消息
+    Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
     Serial2.end();  //关闭串口2,否则会影响接收消息
     tRet =Serial3.readBytes(Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len); //接收应答
     Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -1818,6 +1899,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   tRet = Serial3.readBytes( Usart3_Rx_Buf, Usart3_Rx_Ack_Len+10); //接收应答
   
@@ -1894,6 +1977,8 @@ unsigned char SemiduplexSerial::ubtServoIdProtocol(unsigned char Head,unsigned c
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   tRet = Serial3.readBytes( Usart3_Rx_Buf, Usart3_Rx_Ack_Len+len); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -1942,6 +2027,8 @@ unsigned char SemiduplexSerial::ubtServoActionProtocol(unsigned char Head,unsign
   Serial3.setTimeout(tems((long)Usart3_Rx_Ack_Len+1));  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,len + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   tRet = Serial3.readBytes(Rx_Buf, Usart3_Rx_Ack_Len+len+1); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息 
@@ -1981,6 +2068,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(1000000);  //设置波特率
   Serial2.write(buf,len + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   tRet = Serial3.readBytes( Usart3_Rx_Buf, Usart3_Rx_Ack_Len+10); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -2099,6 +2188,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 / 400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,length + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   
   tRet = Serial3.readBytes( Usart3_Rx_Buf, Usart3_Rx_Ack_Len+10); //接收应答
@@ -2286,6 +2377,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 /400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,length + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   
   tRet = Serial3.readBytes( Usart3_Rx_Buf, Usart3_Rx_Ack_Len+10); //接收应答
@@ -2469,6 +2562,8 @@ Retry_Servo:
   Serial3.setTimeout(temp*87*110/100 /400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(buf,length + 1);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   
   tRet = Serial3.readBytes( Usart3_Rx_Buf, Usart3_Rx_Ack_Len+10); //接收应答
@@ -2605,6 +2700,8 @@ unsigned long SemiduplexSerial::TXD(unsigned char len,unsigned char * Data){
   Serial3.setTimeout(lens*87*110/100/400);  //设置超时ms
   Serial2.begin(115200,SERIAL_8N1);  //设置波特率
   Serial2.write(Data,len);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   Serial3.readBytes(Rx_Buf,23); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -2659,6 +2756,8 @@ unsigned long SemiduplexSerial::MTXD(unsigned char len,unsigned char * Data){
   Serial3.setTimeout(lens*87*110/100/400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(Data,len);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   Serial3.readBytes(Rx_Buf,23); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -2668,6 +2767,8 @@ unsigned long SemiduplexSerial::MTXD(unsigned char len,unsigned char * Data){
     Serial3.setTimeout(lens*88*110/100/400);  //设置超时ms
     Serial2.begin(114200);  //设置波特率
     Serial2.write(Data,len);  //发送消息
+    Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
     Serial2.end();  //关闭串口2,否则会影响接收消息
     Serial3.readBytes(Rx_Buf,23); //接收应答
     Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -2735,6 +2836,8 @@ unsigned char SemiduplexSerial::IdTxd(unsigned char len,unsigned char * Data){
   Serial3.setTimeout(lens*88*110/100/400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(Data,len);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   Serial3.readBytes(Rx_Buf,23); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -2744,6 +2847,8 @@ if(Rx_Buf[len+4]==0){
   Serial3.setTimeout(lens*88*110/100/400);  //设置超时ms
   Serial2.begin(114200);  //设置波特率
   Serial2.write(Data,len);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   Serial3.readBytes(Rx_Buf,23); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息
@@ -2774,6 +2879,8 @@ signed long SemiduplexSerial::TXD(unsigned char len,unsigned char choice,unsigne
   Serial3.setTimeout(len+5*87*110/100/400);  //设置超时ms
   Serial2.begin(115200);  //设置波特率
   Serial2.write(Data,len);  //发送消息
+  Serial2.flush(); // add by lqh on 2022-05-28 to for all the data written out 
+                  // before calling Serial2.end(). Otherwise, data is missing and protocol doesn’t work
   Serial2.end();  //关闭串口2,否则会影响接收消息
   Serial3.readBytes(Rx_Buf,26); //接收应答
   Serial3.end();  //关闭串口3,否则会影响接收消息

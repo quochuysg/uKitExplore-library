@@ -1,5 +1,5 @@
 #include"uKitId.h" 
-#include "avr/boot.h"
+//#include "avr/boot.h"  // commented out by lqh 2022-05-28 for used with ESP32 board
 #include "VisionDiscrim.h"
 String tohex(int n) {
   if (n == 0) {

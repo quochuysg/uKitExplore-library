@@ -1,3 +1,13 @@
+# modified uKit Explore Library v1.2.15m
+## For used with ESP32 development board
+- file changes: 
+    1. SemiduplexSerial.cpp
+       - include HardwareSerial.h
+       - define pins to used with hardware serial
+       - add Serial2.flush(); before Serail.end() call to make sure all     data is writen
+    2. uKitID.cpp
+      - Comment out #include "avr/boot.h"
+
 # uKit Explore Library v1.2.15
 
 ```
