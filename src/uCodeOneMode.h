@@ -4,7 +4,7 @@
 #include <Arduino.h>
 
 // Supported Modules drive needs to be iddded here
-#include "FlexiTimer2.h"
+//#include "FlexiTimer2.h"  // commented out by lqh on 2022-05-28
 #include "ArduinoJson.h"
 #include"onBoardHW.h"
 #include "NewTone.h"
@@ -160,8 +160,8 @@ void flexiTimer2_func() {
   Buffer[1]=(bufferLength)&0xff;
   Serial.write(Buffer,2); 
   serializeMsgPack(doc, Serial);
-  FlexiTimer2::set(20,flexiTimer2_func);
-  FlexiTimer2::start(); 
+  //FlexiTimer2::set(20,flexiTimer2_func);  // commented out by lqh on 2022-05-28
+  //FlexiTimer2::start(); 
  
 
 }

@@ -4,7 +4,8 @@
 #include <Arduino.h>
 
 // Supported Modules drive needs to be iddded here
-#include "FlexiTimer2.h"
+// #include "FlexiTimer2.h"  // commented out by lqh on 2022-05-28 due to 
+                            // incompatable with ESP32
 #include "ArduinoJson.h"
 #include"onBoardHW.h"
 #include "NewTone.h"
@@ -245,8 +246,8 @@ void flexiTimer2_func() {
   Buffer[1]=(bufferLength)&0xff;
   Serial.write(Buffer,2);
   serializeMsgPack(doc, Serial);
-  FlexiTimer2::set(20,flexiTimer2_func);
-  FlexiTimer2::start(); 
+  // FlexiTimer2::set(20,flexiTimer2_func);  // commented out by lqh on 2022-05-28
+  // FlexiTimer2::start(); 
  //getDeciveId();
   for(int i=0;i<7000;i++){
   serialEvent();
@@ -888,7 +889,7 @@ void BuildReqBacket(uint8_t uDev, uint8_t uMode, uint8_t uId, const char * ptrUu
 void protocol(){
     if ((newLineReceived||(bWifiRun))) { 
     if(flexiTimerFlag==false){
-      FlexiTimer2::start();
+//      FlexiTimer2::start(); // commented out by lqh on 2022-05-28
       flexiTimerFlag=true;
     }
     
@@ -1077,7 +1078,7 @@ void protocol(){
     
   }
   else if(protocolRunState==false){
-    FlexiTimer2::stop();
+//    FlexiTimer2::stop();  // commented out by lqh on 2022-05-28
     flexiTimerFlag=false;
   }
   if(timeTimes>=100){

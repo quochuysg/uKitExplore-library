@@ -3,7 +3,7 @@
 #include <Arduino.h>
 
 // Supported Modules drive needs to be iddded here
-#include "FlexiTimer2.h"
+//#include "FlexiTimer2.h"  // commented out by lqh on 2022-05-28
 #include "ArduinoJson.h"
 #include"onBoardHW.h"
 #include "NewTone.h"
@@ -194,8 +194,8 @@ void flexiTimer2_func() {
   Serial.print(Sensor.Version);
   Serial.print("\"]}");
   Serial.print(' ');
-  FlexiTimer2::set(30,flexiTimer2_func);
-  FlexiTimer2::start();
+  //FlexiTimer2::set(30,flexiTimer2_func);  // commented out by lqh on 2022-05-28
+  //FlexiTimer2::start();
   //getDeciveId();
   delay(150);
   serialEvent();
@@ -633,14 +633,14 @@ void protocol(){
     inputString = "";   // clear the string       
     newLineReceived = false; 
     timeTimes=0;
-    FlexiTimer2::stop();
+    //FlexiTimer2::stop();
     uuid="";
     protocolRunState=true;   
     
   }
   if(timeTimes>=3){
     protocolRunState=false;
-    FlexiTimer2::stop();
+//    FlexiTimer2::stop();  // commented out by lqh on 2022-05-28
     timeTimes=0;
 
   }
