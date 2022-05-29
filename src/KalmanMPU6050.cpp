@@ -135,7 +135,8 @@ void IMU::init()
 {
   DEBUG_INIT();
   Wire.begin();
-  TWBR = ((F_CPU / 400000UL) - 16) / 2; // Set I2C frequency to 400kHz
+  wire.setClock(400000);
+  // TWBR = ((F_CPU / 400000UL) - 16) / 2; // Set I2C frequency to 400kHz
 
   Wire.beginTransmission(IMU_ADDR);
   Wire.write(IMU_REG);
